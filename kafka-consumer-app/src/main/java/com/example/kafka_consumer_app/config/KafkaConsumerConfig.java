@@ -1,6 +1,6 @@
 package com.example.kafka_consumer_app.config;
 
-import com.example.kafka_consumer_app.dto.UserDTO;
+import com.example.kafka_consumer_app.entity.UserEvent;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,7 +27,7 @@ public class KafkaConsumerConfig {
     private String groupId;
 
     @Bean
-    public ConsumerFactory<String, UserDTO> consumerFactory() {
+    public ConsumerFactory<String, UserEvent> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
@@ -47,14 +47,14 @@ public class KafkaConsumerConfig {
                 .disable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
                 .disable(MapperFeature.ALLOW_COERCION_OF_SCALARS);
 
-        JsonDeserializer<UserDTO> deserializer = new JsonDeserializer<>(UserDTO.class, objectMapper, false);
+        JsonDeserializer<UserEvent> deserializer = new JsonDeserializer<>(UserEvent.class, objectMapper, false);
 
         return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), deserializer);
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, UserDTO> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, UserDTO> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    public ConcurrentKafkaListenerContainerFactory<String, UserEvent> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, UserEvent> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;
     }

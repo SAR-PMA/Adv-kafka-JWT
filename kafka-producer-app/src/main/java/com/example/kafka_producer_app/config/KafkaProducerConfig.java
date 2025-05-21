@@ -1,6 +1,6 @@
 package com.example.kafka_producer_app.config;
 
-import com.example.kafka_producer_app.dto.UserDTO;
+import com.example.kafka_producer_app.entity.UserEvent;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +17,7 @@ import java.util.Map;
 public class KafkaProducerConfig {
 
     @Bean
-    public ProducerFactory<String, UserDTO> producerFactory() {
+    public ProducerFactory<String, UserEvent> producerFactory() {
         Map<String, Object> config = new HashMap<>();
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka:9092");
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -30,7 +30,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, UserDTO> jsonKafkaTemplate() {
+    public KafkaTemplate<String, UserEvent> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 }

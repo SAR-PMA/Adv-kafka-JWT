@@ -1,6 +1,7 @@
 package com.example.kafka_producer_app.controller;
 
 import com.example.kafka_producer_app.dto.UserDTO;
+import com.example.kafka_producer_app.entity.UserEvent;
 import com.example.kafka_producer_app.service.KafkaProducerService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +18,10 @@ public class KafkaProducerController {
     }
 
     @PostMapping
-    public ResponseEntity<String> produce(@Valid @RequestBody UserDTO user) {
-        kafkaProducerService.sendMessage(user);
-        return ResponseEntity.ok("UserDTO message sent to Kafka successfully! 🚀");
+    public ResponseEntity<String> produce(@Valid @RequestBody UserDTO userDTO) {
+        UserEvent userEvent = new UserEvent(userDTO.getName(), userDTO.getAge());
+        kafkaProducerService.sendMessage(userEvent);
+        return ResponseEntity.ok("UserEvent sent to Kafka successfully! 🚀");
     }
 }
 
