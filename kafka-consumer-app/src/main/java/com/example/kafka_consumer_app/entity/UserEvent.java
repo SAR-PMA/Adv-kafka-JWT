@@ -1,20 +1,36 @@
 package com.example.kafka_consumer_app.entity;
 
-import jakarta.persistence.*;
-import jakarta.persistence.GenerationType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 
+@Setter
+@Getter
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 public class UserEvent {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    // Getters and setters
+    @NotBlank(message = "Name is required")
     private String name;
-    private Integer age;
+    @Min(value = 18, message = "Minimum age is 18")
+    @Max(value = 60, message = "Maximum age is 60")
+    private Integer  age;
+    @Column
+    private String email;
+    @Column
+    private String country;
+
+    @java.lang.Override
+    public java.lang.String toString() {
+        return "UserEvent{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", email='" + email + '\'' +
+                ", country='" + country + '\'' +
+                '}';
+    }
 }
+
+

@@ -17,11 +17,20 @@ public class UserEvent {
     @Min(value = 18, message = "Minimum age is 18")
     @Max(value = 60, message = "Maximum age is 60")
     private Integer  age;
+    @Column
+    private String email;
 
+    @Column
+    private String country;
 
-    @Override
-    public String toString() {
-        return "UserDTO{name='" + name + "', age=" + age + "}";
+    @java.lang.Override
+    public java.lang.String toString() {
+        return "UserEvent{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", email='" + email + '\'' +
+                ", country='" + country + '\'' +
+                '}';
     }
 }
 
