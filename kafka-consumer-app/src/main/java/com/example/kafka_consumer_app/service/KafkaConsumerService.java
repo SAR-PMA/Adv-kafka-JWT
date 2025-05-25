@@ -15,9 +15,11 @@ import java.time.LocalDateTime;
 public class KafkaConsumerService {
 
     private static final Logger logger = LoggerFactory.getLogger(KafkaConsumerService.class);
+    // remember this is used without mapper and also without userservice
+//    @Autowired
+//    private UserEventRepository repository;
     @Autowired
-    private UserEventRepository repository;
-
+    private UserEventService userEventService;
     //    @KafkaListener(
 //            topics = "${app.kafka.topic-name}",
 //            groupId = "${app.kafka.consumer.group-id}",
@@ -33,12 +35,14 @@ public class KafkaConsumerService {
     public void consume(UserEvent event, ConsumerRecord<String, UserEvent> record) {
         logger.info("📥 Received UserEvent: {}", event);
 
-        // Enrich the event
+//        repository.save(event);
+        // Enrich event
         event.setCreatedAt(LocalDateTime.now());
         event.setKafkaPartition(record.partition());
         event.setKafkaOffset(record.offset());
 
-        repository.save(event);
+        // Delegate persistence
+        userEventService.saveEvent(event);
         logger.info("💾 Persisted enriched UserEvent to DB");
     }
 
