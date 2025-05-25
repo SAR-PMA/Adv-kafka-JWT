@@ -10,16 +10,24 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
-    // Getters and setters
     private Long id;
-    @NotBlank(message = "Name is required")
+
+    @NotBlank(message = "Name cannot be blank")
     private String name;
-    @Min(value = 18, message = "Minimum age is 18")
-    @Max(value = 60, message = "Maximum age is 60")
-    private Integer age;
+
+    @Min(value = 0, message = "Age must be a positive number")
+    @Max(value = 120, message = "Age must be realistic")
+    private int age;
+
+    @NotBlank(message = "Email cannot be blank")
+    @Email(message = "Email should be valid")
     private String email;
+
+    @NotBlank(message = "Country cannot be blank")
     private String country;
+
     private LocalDateTime createdAt;
+
     private Integer kafkaPartition;
     private Long kafkaOffset;
 }
