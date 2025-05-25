@@ -60,6 +60,11 @@
             <artifactId>kafka-clients</artifactId>
             <version>3.7.1</version>
         </dependency>
+        <!-- Jakarta Persistence (optional, resolves annotation issues) -->
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

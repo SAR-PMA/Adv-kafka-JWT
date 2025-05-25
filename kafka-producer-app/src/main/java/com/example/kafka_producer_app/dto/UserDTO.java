@@ -1,10 +1,7 @@
 package com.example.kafka_producer_app.dto;
 
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Setter
 @Getter
@@ -17,11 +14,17 @@ public class UserDTO {
     @Min(value = 18, message = "Minimum age is 18")
     @Max(value = 60, message = "Maximum age is 60")
     private Integer  age;
-
+    private String email;
+    private String country;
 
     @Override
     public String toString() {
-        return "UserDTO{name='" + name + "', age=" + age + "}";
+        return "UserDTO{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", email='" + email + '\'' +
+                ", country='" + country + '\'' +
+                '}';
     }
 }
 

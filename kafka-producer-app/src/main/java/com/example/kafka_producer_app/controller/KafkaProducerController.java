@@ -19,7 +19,7 @@ public class KafkaProducerController {
 
     @PostMapping
     public ResponseEntity<String> produce(@Valid @RequestBody UserDTO userDTO) {
-        UserEvent userEvent = new UserEvent(userDTO.getName(), userDTO.getAge());
+        UserEvent userEvent = new UserEvent(userDTO.getName(), userDTO.getAge(), userDTO.getEmail(),userDTO.getCountry());
         kafkaProducerService.sendMessage(userEvent);
         return ResponseEntity.ok("UserEvent sent to Kafka successfully! 🚀");
     }
