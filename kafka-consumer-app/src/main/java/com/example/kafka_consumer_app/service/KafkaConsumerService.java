@@ -1,6 +1,7 @@
 package com.example.kafka_consumer_app.service;
 
 import com.example.kafka_consumer_app.entity.UserEvent;
+import com.example.kafka_consumer_app.metrics.KafkaMetrics;
 import com.example.kafka_consumer_app.repository.UserEventRepository;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
@@ -20,6 +21,10 @@ public class KafkaConsumerService {
 //    private UserEventRepository repository;
     @Autowired
     private UserEventService userEventService;
+
+    @Autowired
+    private KafkaMetrics metrics;
+
     //    @KafkaListener(
 //            topics = "${app.kafka.topic-name}",
 //            groupId = "${app.kafka.consumer.group-id}",
@@ -35,6 +40,9 @@ public class KafkaConsumerService {
     public void consume(UserEvent event, ConsumerRecord<String, UserEvent> record) {
         logger.info("📥 Received UserEvent: {}", event);
 
+        if (event.getAge() > 120) {
+            throw new IllegalArgumentException("Age exceeds the allowed limit");
+        }
 //        repository.save(event);
         // Enrich event
         event.setCreatedAt(LocalDateTime.now());
@@ -44,6 +52,7 @@ public class KafkaConsumerService {
         // Delegate persistence
         userEventService.saveEvent(event);
         logger.info("💾 Persisted enriched UserEvent to DB");
+        metrics.increment();
     }
 
 
