@@ -1,0 +1,2 @@
+--INSERT INTO users (username, password, role)
+--VALUES ('testuser', '$2a$10$6vY6uYZF3yYwUs6ZxFzBvOjP7YFhU/5rTJZOkUXWxQzRZTeu0d2W6', 'USER');
