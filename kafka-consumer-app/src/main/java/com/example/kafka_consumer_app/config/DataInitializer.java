@@ -2,12 +2,11 @@ package com.example.kafka_consumer_app.config;
 
 import com.example.kafka_consumer_app.entity.User;
 import com.example.kafka_consumer_app.repository.UserRepository;
+import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import jakarta.annotation.PostConstruct;
 
 @Configuration
 public class DataInitializer {

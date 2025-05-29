@@ -5,7 +5,10 @@ import com.example.kafka_producer_app.entity.UserEvent;
 import com.example.kafka_producer_app.service.KafkaProducerService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/produce")
@@ -19,7 +22,7 @@ public class KafkaProducerController {
 
     @PostMapping
     public ResponseEntity<String> produce(@Valid @RequestBody UserDTO userDTO) {
-        UserEvent userEvent = new UserEvent(userDTO.getName(), userDTO.getAge(), userDTO.getEmail(),userDTO.getCountry());
+        UserEvent userEvent = new UserEvent(userDTO.getName(), userDTO.getAge(), userDTO.getEmail(), userDTO.getCountry());
         kafkaProducerService.sendMessage(userEvent);
         return ResponseEntity.ok("UserEvent sent to Kafka successfully! 🚀");
     }

@@ -10,10 +10,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class JwtServiceTest {
 
+    private final String username = "testUser";
     @Autowired
     private JwtService jwtService;
-
-    private final String username = "testUser";
 
     @Test
     void testGenerateAndValidateToken() {

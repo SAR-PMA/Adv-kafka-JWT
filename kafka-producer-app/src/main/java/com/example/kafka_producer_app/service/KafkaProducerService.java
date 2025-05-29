@@ -10,18 +10,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class KafkaProducerService {
 
-        private final KafkaTemplate<String, UserEvent> kafkaTemplate;
-        private final String topicName;
-        private static final Logger logger = LoggerFactory.getLogger(KafkaProducerService.class);
+    private static final Logger logger = LoggerFactory.getLogger(KafkaProducerService.class);
+    private final KafkaTemplate<String, UserEvent> kafkaTemplate;
+    private final String topicName;
 
-        public KafkaProducerService(KafkaTemplate<String, UserEvent> kafkaTemplate,
-                                    @Value("${app.kafka.topic-name}") String topicName) {
-            this.kafkaTemplate = kafkaTemplate;
-            this.topicName = topicName;
-        }
-
-        public void sendMessage(UserEvent user) {
-            kafkaTemplate.send(topicName, user);
-            logger.info("🎯 Sent UserDTO message='{}' to topic='{}'", user, topicName);
-        }
+    public KafkaProducerService(KafkaTemplate<String, UserEvent> kafkaTemplate,
+                                @Value("${app.kafka.topic-name}") String topicName) {
+        this.kafkaTemplate = kafkaTemplate;
+        this.topicName = topicName;
     }
+
+    public void sendMessage(UserEvent user) {
+        kafkaTemplate.send(topicName, user);
+        logger.info("🎯 Sent UserDTO message='{}' to topic='{}'", user, topicName);
+    }
+}
