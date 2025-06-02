@@ -30,7 +30,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/auth/**", "/actuator/**").permitAll() // 💥 Add this line
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
@@ -41,6 +41,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 
     @Bean
     public AuthenticationManager authManager(AuthenticationConfiguration config) throws Exception {
