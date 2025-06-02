@@ -1,4 +1,7 @@
+version: '3.8'
+
 services:
+
   kafka:
     image: bitnami/kafka:3.4.0
     container_name: kafka
@@ -18,42 +21,6 @@ services:
     networks:
       - kafka-net
 
-  producer:
-    build:
-      context: ./kafka-producer-app
-    container_name: kafka-producer
-    ports:
-      - "8081:8080"
-    environment:
-      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
-      - APP_KAFKA_TOPIC_NAME=test-topic
-    depends_on:
-      mysql:
-        condition: service_healthy
-      kafka:
-        condition: service_started
-    networks:
-      - kafka-net
-
-  consumer:
-    build:
-      context: ./kafka-consumer-app
-    container_name: kafka-consumer
-    ports:
-      - "8082:8080"
-      - "8093:8093"
-    environment:
-      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
-      - APP_KAFKA_CONSUMER_GROUP_ID=my-group
-      - APP_KAFKA_TOPIC_NAME=test-topic
-    depends_on:
-      mysql:
-        condition: service_healthy
-      kafka:
-        condition: service_started
-    networks:
-      - kafka-net
-
   mysql:
     image: mysql:8.0
     container_name: mysql
@@ -64,13 +31,53 @@ services:
       - MYSQL_DATABASE=employeedb
     networks:
       - kafka-net
+    volumes:
+      - mysql_data:/var/lib/mysql
     healthcheck:
-      test: [ "CMD", "mysqladmin", "-uroot", "-pPassword@1", "ping", "-h", "127.0.0.1" ]
+      test: ["CMD", "mysqladmin", "-uroot", "-pPassword@1", "ping", "-h", "127.0.0.1"]
       interval: 10s
       timeout: 5s
       retries: 10
 
+  producer:
+    build:
+      context: ./kafka-producer-app
+    container_name: kafka-producer
+    ports:
+      - "8081:8080"
+    environment:
+      - SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS=kafka:9092
+      - APP_KAFKA_TOPIC_NAME=test-topic
+    depends_on:
+      kafka:
+        condition: service_started
+      mysql:
+        condition: service_healthy
+    networks:
+      - kafka-net
+
+  consumer:
+    build:
+      context: ./kafka-consumer-app
+    container_name: kafka-consumer
+    ports:
+      - "8082:8080"   # REST endpoint
+      - "8093:8093"   # Actuator/Prometheus
+    environment:
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - APP_KAFKA_TOPIC_NAME=test-topic
+      - APP_KAFKA_CONSUMER_GROUP_ID=my-group
+    depends_on:
+      kafka:
+        condition: service_started
+      mysql:
+        condition: service_healthy
+    networks:
+      - kafka-net
 
 networks:
   kafka-net:
     driver: bridge
+
+volumes:
+  mysql_data:
