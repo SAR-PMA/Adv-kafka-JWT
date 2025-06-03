@@ -2,7 +2,6 @@ package com.example.kafka_consumer_app.service;
 
 import com.example.kafka_consumer_app.entity.UserEvent;
 import com.example.kafka_consumer_app.metrics.KafkaMetrics;
-import com.example.kafka_consumer_app.repository.UserEventRepository;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
