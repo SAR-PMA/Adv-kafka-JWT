@@ -22,6 +22,6 @@ public class KafkaProducerService {
 
     public void sendMessage(UserEvent user) {
         kafkaTemplate.send(topicName, user);
-        logger.info("🎯 Sent UserDTO message='{}' to topic='{}'", user, topicName);
+        logger.info("Sent UserDTO message='{}' to topic='{}'", user, topicName);
     }
 }

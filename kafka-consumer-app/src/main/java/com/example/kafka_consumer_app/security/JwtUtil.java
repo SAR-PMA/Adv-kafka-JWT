@@ -54,7 +54,7 @@ public class JwtUtil {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (JwtException | IllegalArgumentException e) {
-            System.out.println("❌ Invalid JWT: " + e.getMessage());
+            System.out.println("Invalid JWT: " + e.getMessage());
             return false;
         }
     }

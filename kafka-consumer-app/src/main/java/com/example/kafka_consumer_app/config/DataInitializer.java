@@ -28,9 +28,9 @@ public class DataInitializer {
             user.setRole("ROLE_USER");
 
             userRepository.save(user);
-            System.out.println("🚀 Default user created: testuser / testpass");
+            System.out.println("Default user created: testuser / testpass");
         } else {
-            System.out.println("✅ Default user already exists.");
+            System.out.println("Default user already exists.");
         }
     }
 }

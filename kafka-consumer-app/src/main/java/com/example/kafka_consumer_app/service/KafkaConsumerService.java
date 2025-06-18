@@ -29,7 +29,7 @@ public class KafkaConsumerService {
 //            groupId = "${app.kafka.consumer.group-id}",
 //            containerFactory = "kafkaListenerContainerFactory")
 //    public void consume(UserDTO user) {
-//        logger.info("🛸 Received JSON UserDTO: {}", user);
+//        logger.info("Received JSON UserDTO: {}", user);
 //
 //    }
     @KafkaListener(
@@ -37,7 +37,7 @@ public class KafkaConsumerService {
             groupId = "${app.kafka.consumer.group-id}"
     )
     public void consume(UserEvent event, ConsumerRecord<String, UserEvent> record) {
-        logger.info("📥 Received UserEvent: {}", event);
+        logger.info("Received UserEvent: {}", event);
 
         if (event.getAge() > 120) {
             throw new IllegalArgumentException("Age exceeds the allowed limit");
@@ -50,7 +50,7 @@ public class KafkaConsumerService {
 
         // Delegate persistence
         userEventService.saveEvent(event);
-        logger.info("💾 Persisted enriched UserEvent to DB");
+        logger.info("Persisted enriched UserEvent to DB");
         metrics.increment();
     }
 
