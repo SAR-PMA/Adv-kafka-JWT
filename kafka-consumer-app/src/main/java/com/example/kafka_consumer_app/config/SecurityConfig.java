@@ -1,5 +1,6 @@
-package com.example.kafka_consumer_app.security;
+package com.example.kafka_consumer_app.config;
 
+import com.example.kafka_consumer_app.security.JwtFilter;
 import com.example.kafka_consumer_app.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
